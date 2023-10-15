@@ -24,6 +24,19 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
+# A/B updater
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_system=true \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    FILESYSTEM_TYPE_system=ext4 \
+    POSTINSTALL_OPTIONAL_system=true
+
+PRODUCT_PACKAGES += \
+    otapreopt_script \
+    update_engine \
+    update_engine_sideload \
+    update_verifier
+
 # Audio
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/aov_ec_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/aov_ec_mixer_paths.xml \
@@ -37,6 +50,16 @@ PRODUCT_COPY_FILES += \
 TARGET_SCREEN_HEIGHT := 2160
 TARGET_SCREEN_WIDTH := 1080
 
+# Boot control HAL
+PRODUCT_PACKAGES += \
+    android.hardware.boot@1.0-impl.recovery \
+    bootctrl.sdm660 \
+    bootctrl.sdm660.recovery
+
+PRODUCT_PACKAGES_DEBUG += \
+    bootctl \
+    update_engine_client
+
 # Camera
 PRODUCT_PACKAGES += \
     Aperture
@@ -44,7 +67,20 @@ PRODUCT_PACKAGES += \
 # Dex-pre-opt exclusions
 $(call add-product-dex-preopt-module-config,MotoSignatureApp,disable)
 
-# fastbootd
+# Enable retrofit dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
+
+PRODUCT_PACKAGES += \
+    check_dynamic_partitions
+
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_product=true \
+    POSTINSTALL_PATH_product=bin/check_dynamic_partitions \
+    FILESYSTEM_TYPE_product=ext4 \
+    POSTINSTALL_OPTIONAL_product=false
+
+# Fastbootd
 PRODUCT_PACKAGES += \
     fastbootd
 
@@ -84,6 +120,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
     frameworks/native/data/etc/com.android.nfc_extras.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.android.nfc_extras.xml \
+
+# Recovery
+TARGET_RECOVERY_FSTAB := device/motorola/sdm660-common/rootdir/etc/fstab.qcom
 
 # Sensors
 PRODUCT_COPY_FILES += \
