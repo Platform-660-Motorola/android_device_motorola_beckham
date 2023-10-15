@@ -9,24 +9,22 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Inherit some common Pixel Experience stuff.
-$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
+# Inherit some common LineageOS stuff.
+$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Inherit from device
 $(call inherit-product, device/motorola/beckham/device.mk)
 
-# Target some common Pixel Experience stuff.
+# Target from device
 TARGET_GAPPS_ARCH := arm64
 TARGET_BOOT_ANIMATION_RES := 1080
-TARGET_INCLUDE_STOCK_ARCORE := false
-TARGET_INCLUDE_LIVE_WALLPAPERS := false
 
 # Quick Tap
 TARGET_SUPPORTS_QUICK_TAP := true
 
 # Device identifiers
 PRODUCT_DEVICE := beckham
-PRODUCT_NAME := aosp_beckham
+PRODUCT_NAME := lineage_beckham
 PRODUCT_BRAND := Motorola
 PRODUCT_MODEL := Moto Z3 Play
 PRODUCT_MANUFACTURER := Motorola
