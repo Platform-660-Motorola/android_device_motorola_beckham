@@ -28,7 +28,7 @@ TARGET_EXCLUDES_AUDIOFX := true
 TARGET_SCREEN_DENSITY := 420
 
 # Kernel
-TARGET_KERNEL_CONFIG := lineageos_beckham_defconfig
+TARGET_KERNEL_CONFIG := beckham_defconfig
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/c0c4000.sdhci
 
 # HIDL
